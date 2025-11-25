@@ -9,9 +9,7 @@ public class BaseModel {
     private LocalDateTime createDate;
     private LocalDateTime editDate;
 
-    public BaseModel(Long id) {
-        this.id = id;
-    }
+    public BaseModel() {}
 
     public Long getId() {
         return id;

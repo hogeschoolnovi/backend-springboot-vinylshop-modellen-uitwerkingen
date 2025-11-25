@@ -7,10 +7,6 @@ public class GenreModel extends BaseModel {
     private String description;
 
     public GenreModel() {
-        super(-1L);
-    }
-    public GenreModel(Long id) {
-        super(id);
     }
 
     public String getName() {

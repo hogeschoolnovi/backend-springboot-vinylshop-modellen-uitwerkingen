@@ -12,7 +12,7 @@ public class PublisherEntityMapper implements EntityMapper<PublisherModel, Publi
         if (entity == null) {
             return null;
         }
-        PublisherModel model = new PublisherModel(entity.getId());
+        PublisherModel model = new PublisherModel();
         fromEntityBase(entity,model);
         model.setName(entity.getName());
         model.setAddress(entity.getAddress());

@@ -6,14 +6,7 @@ public class PublisherModel extends BaseModel {
     private String address;
     private String contactDetails;
 
-    public PublisherModel() {
-        super(-1L);
-    }
-
-    public PublisherModel(Long id) {
-        super(id);
-    }
-
+    public PublisherModel() {}
 
     public String getName() {
         return name;

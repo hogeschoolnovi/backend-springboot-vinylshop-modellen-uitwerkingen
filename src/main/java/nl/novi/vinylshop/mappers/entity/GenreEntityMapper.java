@@ -12,7 +12,7 @@ public class GenreEntityMapper implements EntityMapper<GenreModel, GenreEntity> 
         if (entity == null) {
             return null;
         }
-        GenreModel model = new GenreModel(entity.getId());
+        GenreModel model = new GenreModel();
         fromEntityBase(entity,model);
         model.setName(entity.getName());
         model.setDescription(entity.getDescription());

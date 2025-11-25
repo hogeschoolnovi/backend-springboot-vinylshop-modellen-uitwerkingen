@@ -5,6 +5,7 @@ package nl.novi.vinylshop.mappers.entity;
 import nl.novi.vinylshop.entities.BaseEntity;
 import nl.novi.vinylshop.models.BaseModel;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,8 +29,14 @@ public interface EntityMapper<M extends BaseModel, E extends BaseEntity> {
             return;
         }
         entity.setId(model.getId());
-        entity.setCreateDate(model.getCreateDate());
-        entity.setEditDate(model.getEditDate());
+
+        if(model.getCreateDate() != null) {
+            entity.setCreateDate(model.getCreateDate());
+        }
+
+        if(model.getEditDate() != null) {
+            entity.setEditDate(model.getEditDate());
+        }
     }
 
     default List<M> fromEntities(List<E> entities) {
