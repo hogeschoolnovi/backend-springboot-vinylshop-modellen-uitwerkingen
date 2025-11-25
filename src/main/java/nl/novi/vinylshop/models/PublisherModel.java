@@ -1,0 +1,43 @@
+package nl.novi.vinylshop.models;
+
+
+public class PublisherModel extends BaseModel {
+      private String name;
+    private String address;
+    private String contactDetails;
+
+    public PublisherModel() {
+        super(-1L);
+    }
+
+    public PublisherModel(Long id) {
+        super(id);
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContactDetails() {
+        return contactDetails;
+    }
+
+    public void setContactDetails(String contactDetails) {
+        this.contactDetails = contactDetails;
+    }
+
+}
+
