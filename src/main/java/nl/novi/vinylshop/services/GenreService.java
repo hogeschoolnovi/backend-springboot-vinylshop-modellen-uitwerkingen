@@ -1,9 +1,10 @@
 package nl.novi.vinylshop.services;
 
 import jakarta.persistence.EntityNotFoundException;
+import nl.novi.vinylshop.dtos.genre.GenreRequestDTO;
+import nl.novi.vinylshop.dtos.genre.GenreResponseDTO;
 import nl.novi.vinylshop.entities.GenreEntity;
-import nl.novi.vinylshop.mappers.entity.GenreEntityMapper;
-import nl.novi.vinylshop.models.GenreModel;
+import nl.novi.vinylshop.mappers.GenreDTOMapper;
 import nl.novi.vinylshop.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,41 +16,39 @@ import java.util.stream.Collectors;
 public class GenreService {
 
     private final GenreRepository genreRepository;
-    private final GenreEntityMapper genreEntityMapper;
+    private final GenreDTOMapper genreDTOMapper;
 
 
-    public GenreService(GenreRepository genreRepository, GenreEntityMapper genreEntityMapper) {
+    public GenreService(GenreRepository genreRepository, GenreDTOMapper genreDTOMapper) {
         this.genreRepository = genreRepository;
-        this.genreEntityMapper = genreEntityMapper;
+        this.genreDTOMapper = genreDTOMapper;
     }
 
 
 
-    public List<GenreModel> findAllGenres() {
-        return genreRepository.findAll().stream()
-                .map(genreEntityMapper::fromEntity)
-                .collect(Collectors.toList());
+    public List<GenreResponseDTO> findAllGenres() {
+        return genreDTOMapper.mapToDto(genreRepository.findAll());
     }
 
-    public GenreModel findGenreById(Long id) throws EntityNotFoundException {
-        GenreEntity genreEntity = getGenreEntity(id);
-        return genreEntityMapper.fromEntity(genreEntity);
+    public GenreResponseDTO findGenreById(Long id) throws EntityNotFoundException {
+        nl.novi.vinylshop.entities.GenreEntity genreEntity = getGenreEntity(id);
+        return genreDTOMapper.mapToDto(genreEntity);
     }
 
-    public GenreModel createGenre(GenreModel genreModel) {
-        GenreEntity genreEntity = genreEntityMapper.toEntity(genreModel);
+    public GenreResponseDTO createGenre(GenreRequestDTO genreDTO) {
+        GenreEntity genreEntity = genreDTOMapper.mapToEntity(genreDTO);
         genreEntity = genreRepository.save(genreEntity);
-        return genreEntityMapper.fromEntity(genreEntity);
+        return genreDTOMapper.mapToDto(genreEntity);
     }
 
-    public GenreModel updateGenre(Long id, GenreModel genreModel) throws EntityNotFoundException {
+    public GenreResponseDTO updateGenre(Long id, GenreRequestDTO requestDto) throws EntityNotFoundException {
         GenreEntity existingGenreEntity = getGenreEntity(id);
 
-        existingGenreEntity.setName(genreModel.getName());
-        existingGenreEntity.setDescription(genreModel.getDescription());
+        existingGenreEntity.setName(requestDto.getName());
+        existingGenreEntity.setDescription(requestDto.getDescription());
 
         existingGenreEntity = genreRepository.save(existingGenreEntity);
-        return genreEntityMapper.fromEntity(existingGenreEntity);
+        return genreDTOMapper.mapToDto(existingGenreEntity);
     }
 
     private GenreEntity getGenreEntity(Long id) {
