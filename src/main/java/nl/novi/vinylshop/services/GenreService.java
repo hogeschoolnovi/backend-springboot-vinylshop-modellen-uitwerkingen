@@ -4,13 +4,13 @@ import jakarta.persistence.EntityNotFoundException;
 import nl.novi.vinylshop.dtos.genre.GenreRequestDTO;
 import nl.novi.vinylshop.dtos.genre.GenreResponseDTO;
 import nl.novi.vinylshop.entities.GenreEntity;
+import nl.novi.vinylshop.exceptions.RecordNotFoundException;
 import nl.novi.vinylshop.mappers.GenreDTOMapper;
 import nl.novi.vinylshop.repositories.GenreRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class GenreService {
@@ -53,7 +53,7 @@ public class GenreService {
 
     private GenreEntity getGenreEntity(Long id) {
         GenreEntity existingGenreEntity = genreRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Genre " + id +" not found"));
+                .orElseThrow(() -> new RecordNotFoundException("Genre " + id +" not found"));
         return existingGenreEntity;
     }
 
@@ -61,6 +61,7 @@ public class GenreService {
         genreRepository.deleteById(id);
     }
 
+//    Deze methode wordt niet gebruikt, maar dienst als alternatief voorbeeld voor de "getGenreEntity"-methode
     private GenreEntity getGenreById(Long id){
         Optional<GenreEntity> genreEntityOptional = genreRepository.findById(id);
 
@@ -68,7 +69,7 @@ public class GenreService {
         if(genreEntityOptional.isPresent()){
             return genreEntityOptional.get();
         } else {
-            return null;
+            throw new RecordNotFoundException("Genre " + id +" not found");
         }
     }
 }

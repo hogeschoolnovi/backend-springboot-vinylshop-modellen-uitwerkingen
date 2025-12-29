@@ -1,15 +1,15 @@
 package nl.novi.vinylshop.services;
 
-import jakarta.persistence.EntityNotFoundException;
+
 import nl.novi.vinylshop.dtos.publisher.PublisherRequestDTO;
 import nl.novi.vinylshop.dtos.publisher.PublisherResponseDTO;
 import nl.novi.vinylshop.entities.PublisherEntity;
+import nl.novi.vinylshop.exceptions.RecordNotFoundException;
 import nl.novi.vinylshop.mappers.PublisherDTOMapper;
 import nl.novi.vinylshop.repositories.PublisherRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PublisherService{
@@ -27,7 +27,7 @@ public class PublisherService{
         return publisherDtoMapper.mapToDto(publisherRepository.findAll());
     }
 
-    public PublisherResponseDTO findPublisherById(Long id) throws EntityNotFoundException {
+    public PublisherResponseDTO findPublisherById(Long id) throws RecordNotFoundException {
         PublisherEntity publisherEntity = getPublisherEntity(id);
         return publisherDtoMapper.mapToDto(publisherEntity);
     }
@@ -39,7 +39,7 @@ public class PublisherService{
         return publisherDtoMapper.mapToDto(publisherEntity);
     }
 
-    public PublisherResponseDTO updatePublisher(Long id, PublisherRequestDTO publisherModel) throws EntityNotFoundException {
+    public PublisherResponseDTO updatePublisher(Long id, PublisherRequestDTO publisherModel) throws RecordNotFoundException {
         PublisherEntity existingPublisherEntity = getPublisherEntity(id);
 
         existingPublisherEntity.setName(publisherModel.getName());
@@ -57,7 +57,7 @@ public class PublisherService{
 //    Deze helper methode haalt de Entity uit de Repository en valideert het. Deze actie werd op meerdere plekken gedaan, daarom is er een helper methode voor gemaakt.
     private PublisherEntity getPublisherEntity(Long id) {
         PublisherEntity publisherEntity = publisherRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Publisher " + id +" not found"));
+                .orElseThrow(() -> new RecordNotFoundException("Publisher " + id +" not found"));
         return publisherEntity;
     }
 

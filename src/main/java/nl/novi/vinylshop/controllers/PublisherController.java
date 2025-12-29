@@ -40,7 +40,7 @@ public class PublisherController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PublisherResponseDTO> getPublisherById(@PathVariable Long id) throws EntityNotFoundException {
+    public ResponseEntity<PublisherResponseDTO> getPublisherById(@PathVariable Long id) {
         PublisherResponseDTO publisher = publisherService.findPublisherById(id);
         return new ResponseEntity<>(publisher, HttpStatus.OK);
     }
@@ -52,7 +52,7 @@ public class PublisherController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PublisherResponseDTO> updatePublisher(@PathVariable Long id, @RequestBody  @Valid PublisherRequestDTO publisherRequestDTO) throws EntityNotFoundException {
+    public ResponseEntity<PublisherResponseDTO> updatePublisher(@PathVariable Long id, @RequestBody  @Valid PublisherRequestDTO publisherRequestDTO) {
         PublisherResponseDTO updatedPublisher = publisherService.updatePublisher(id, publisherRequestDTO);
         return new ResponseEntity<>(updatedPublisher, HttpStatus.OK);
     }
